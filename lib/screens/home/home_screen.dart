@@ -15,25 +15,39 @@ class HomeScreen extends StatelessWidget {
         settings: const RouteSettings(name: routeName),
         builder: (_) => const HomeScreen());
   }
-ds
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Zero To Unicorn'),
-      bottomNavigationBar: CustomNavBar(),
-      body: Container(
-          child: CarouselSlider(
-        options: CarouselOptions(
-          aspectRatio: 2.0,
-          viewportFraction: 0.9,
-          enlargeCenterPage: true,
-          enlargeStrategy: CenterPageEnlargeStrategy.height,
-          initialPage: 2,
-        ),
-        items: Category.categories
-            .map((category) => HeroCaruselCard(category: category))
-            .toList(),
-      )),
+      appBar: const CustomAppBar(title: 'Zero To Unicorn'),
+      bottomNavigationBar: const CustomNavBar(),
+      body: Column(
+        children: [
+          Container(
+              child: CarouselSlider(
+            options: CarouselOptions(
+              aspectRatio: 2.0,
+              viewportFraction: 0.9,
+              enlargeCenterPage: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
+              initialPage: 2,
+            ),
+            items: Category.categories
+                .map((category) => HeroCaruselCard(category: category))
+                .toList(),
+          )),
+          SectionTitle(title: 'Recomended'),
+          ProductsCarusel(
+              products: Product.products
+                  .where((product) => product.isRecomended)
+                  .toList()),
+          SectionTitle(title: 'Popular'),
+          ProductsCarusel(
+              products: Product.products
+                  .where((product) => product.isPopular)
+                  .toList())
+        ],
+      ),
     );
   }
 }
